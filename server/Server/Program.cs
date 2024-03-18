@@ -1,6 +1,8 @@
 using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Mvc;
 
+const string route = "http://localhost:5000";
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddCors();
@@ -16,7 +18,7 @@ app.UseCors(policy =>
 });
 app.Logger.LogInformation("The app started");
 
-app.MapPost("/convert", ([FromBody] string input) =>
+app.MapPost("/mark_hex", ([FromBody] string input) =>
 {
     if (string.IsNullOrEmpty(input))
     {
@@ -39,4 +41,4 @@ app.MapPost("/convert", ([FromBody] string input) =>
 });
 
 
-app.Run("http://localhost:5000");
+app.Run(route);

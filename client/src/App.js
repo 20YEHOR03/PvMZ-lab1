@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import './App.css'; // Імпорт стилів
 
+const ip = "http://192.168.0.102";
+const port = 5000;
+
 function App() {
   const [input, setInput] = useState('');
   const [output, setOutput] = useState('');
@@ -10,7 +13,7 @@ function App() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/convert', `"${input}"`, {
+      const response = await axios.post(`${ip}:${port}/mark_hex`, `"${input}"`, {
         headers: {
           'Content-Type': 'application/json'
         }
@@ -25,7 +28,7 @@ function App() {
 
   return (
     <div className="container">
-      <h1>Hexadecimal Converter</h1>
+      <h1>Hexadecimal Marker</h1>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="input">Input:</label>
@@ -36,7 +39,7 @@ function App() {
             onChange={(e) => setInput(e.target.value)}
           />
         </div>
-        <button type="submit">Convert</button>
+        <button type="submit">Mark</button>
       </form>
       {error && <div className="error">{error}</div>}
       {output && <div className="output">Output: <span>{output}</span></div>}
