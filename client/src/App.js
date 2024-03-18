@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import './App.css'; // Імпорт стилів
 
-const ip = "http://192.168.0.102";
-const port = 5000;
+const ip = "http://localhost";
+const port = 4832;
 
 function App() {
   const [input, setInput] = useState('');
