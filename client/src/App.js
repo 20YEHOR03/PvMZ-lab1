@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import './App.css'; // Імпорт стилів
 
-const ip = "http://localhost";
+const ip = "http://192.168.56.101";
 const port = 4832;
 
 function App() {
@@ -13,7 +13,8 @@ function App() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`${ip}:${port}/mark_hex`, `"${input}"`, {
+      const inputJson = { input: input };
+      const response = await axios.post(`${ip}:${port}/mark_hex`, inputJson, {
         headers: {
           'Content-Type': 'application/json'
         }

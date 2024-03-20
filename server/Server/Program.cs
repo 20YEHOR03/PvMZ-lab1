@@ -1,7 +1,10 @@
+using System.Net;
+using System.Net.Mime;
 using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Mvc;
 
-const string route = "http://localhost:4832";
+string ip = Dns.GetHostByName(Dns.GetHostName()).AddressList[1].ToString();
+string route = "http://" + ip + ":4832";
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,19 +21,21 @@ app.UseCors(policy =>
 });
 app.Logger.LogInformation("The app started");
 
-app.MapPost("/mark_hex", ([FromBody] string input) =>
+app.MapPost("/mark_hex", async (HttpContext context) =>
 {
-    if (string.IsNullOrEmpty(input))
-    {
-        app.Logger.LogWarning("Input string is null or empty");
-        return Results.BadRequest("Input string is null or empty");
-    }
+    // Отримуємо дані в форматі JSON
+    var inputJson = await context.Request.ReadFromJsonAsync<InputModel>();
 
+    if (inputJson == null || string.IsNullOrEmpty(inputJson.Input))
+    {
+        return Results.BadRequest("Input is missing or empty.");
+    }
+    
     string pattern = @"[0-9A-Fa-f]+";
     string result;
     try
     {
-        result = Regex.Replace(input, pattern, match => $"\"{match.Value}\"");
+        result = Regex.Replace(inputJson.Input, pattern, match => $"\"{match.Value}\"");
     }
     catch (Exception ex)
     { 
@@ -40,5 +45,9 @@ app.MapPost("/mark_hex", ([FromBody] string input) =>
     return Results.Ok(result);
 });
 
-
 app.Run(route);
+
+public class InputModel
+{
+    public string Input { get; set; }
+}
