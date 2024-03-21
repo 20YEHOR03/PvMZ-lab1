@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import './App.css'; // Імпорт стилів
+import './App.css';
 
 const ip = "http://192.168.56.101";
 const port = 4832;

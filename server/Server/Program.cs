@@ -1,9 +1,7 @@
-using System.Net;
-using System.Net.Mime;
 using System.Text.RegularExpressions;
-using Microsoft.AspNetCore.Mvc;
+using Server;
 
-string ip = Dns.GetHostByName(Dns.GetHostName()).AddressList[1].ToString();
+string ip = "192.168.56.101";
 string route = "http://" + ip + ":4832";
 
 var builder = WebApplication.CreateBuilder(args);
@@ -46,8 +44,3 @@ app.MapPost("/mark_hex", async (HttpContext context) =>
 });
 
 app.Run(route);
-
-public class InputModel
-{
-    public string Input { get; set; }
-}
