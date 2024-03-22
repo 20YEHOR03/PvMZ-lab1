@@ -10,7 +10,6 @@ builder.Services.AddCors();
 
 var app = builder.Build();
 
-// Додайте дозвіл CORS у обробник запитів
 app.UseCors(policy =>
 {
     policy.AllowAnyOrigin();
@@ -21,7 +20,6 @@ app.Logger.LogInformation("The app started");
 
 app.MapPost("/mark_hex", async (HttpContext context) =>
 {
-    // Отримуємо дані в форматі JSON
     var inputJson = await context.Request.ReadFromJsonAsync<InputModel>();
 
     if (inputJson == null || string.IsNullOrEmpty(inputJson.Input))
